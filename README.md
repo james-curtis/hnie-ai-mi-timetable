@@ -1,7 +1,6 @@
-# 小爱课程表开发者工具本地调试工具
+# HNIE强智教务系统对接小爱课表
 
-[x] 使用WebSocket将NodeWatch监听到的文件变动发送到开发者工具
-[x] Parser本地调试环境，完全模拟服务器处理环境
+**鸣谢：** [小爱课程表开发者资源库](https://open-schedule-prod.ai.xiaomi.com/docs/#/assets/)
 
 ## 使用说明
 
