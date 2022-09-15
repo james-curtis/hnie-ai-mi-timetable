@@ -1,14 +1,12 @@
-class TimerEnum {
-    static summary = '夏季';
-    static winter = '冬季';
 
-    timer = '';
 
-    constructor(timer) {
-        this.timer = timer;
-    }
+/**
+ * @description 注意，这里在生成环境不能接参数，在本地测试可以接参数
+ * @returns {Promise<{totalWeek: number, afternoon: number, night: number, startWithSunday: boolean, showWeekend: boolean, forenoon: number, sections: [{section: number, startTime: string, endTime: string},{section: number, startTime: string, endTime: string},{section: number, startTime: string, endTime: string},{section: number, startTime: string, endTime: string},{section: number, startTime: string, endTime: string},null,null,null,null,null]}>}
+ */
+async function scheduleTimer() {
 
-    getSummaryTimeSections() {
+    function getSummaryTimeSections() {
         return [
             {
                 section: 1,
@@ -60,15 +58,15 @@ class TimerEnum {
                 startTime: "19:55",
                 endTime: "20:40"
             },
-            {
-                section: 11,
-                startTime: "20:50",
-                endTime: "21:35"
-            }
+            // {
+            //     section: 11,
+            //     startTime: "20:50",
+            //     endTime: "21:35"
+            // }
         ];
     }
 
-    getWinterTimeSections() {
+    function getWinterTimeSections() {
         return [
             {
                 section: 1,
@@ -120,29 +118,24 @@ class TimerEnum {
                 startTime: "20：25",
                 endTime: "21：10"
             },
-            {
-                section: 11,
-                startTime: "21：20",
-                endTime: "22：05"
-            }
+            // {
+            //     section: 11,
+            //     startTime: "21：20",
+            //     endTime: "22：05"
+            // }
         ];
     }
 
-    getSections() {
-        if (this.timer === TimerEnum.summary) {
-            return this.getSummaryTimeSections()
+    const summary = '夏季';
+    const winter = '冬季';
+    function getSections(timer) {
+        if (!timer) {
+            return getSummaryTimeSections()
         } else {
-            return this.getWinterTimeSections();
+            return getWinterTimeSections();
         }
     }
 
-}
-
-/**
- * @description 注意，这里在生成环境不能接参数，在本地测试可以接参数
- * @returns {Promise<{totalWeek: number, afternoon: number, night: number, startWithSunday: boolean, showWeekend: boolean, forenoon: number, sections: [{section: number, startTime: string, endTime: string},{section: number, startTime: string, endTime: string},{section: number, startTime: string, endTime: string},{section: number, startTime: string, endTime: string},{section: number, startTime: string, endTime: string},null,null,null,null,null]}>}
- */
-async function scheduleTimer() {
     await loadTool('AIScheduleTools')
     await AIScheduleAlert('数据收拣完毕！\n最后的最后，请手动设置一下开学日期和学期总周数哦！！！(导入功能不保证100%正确，为以防万一，最好检查一下确保无误哦)')
 
@@ -150,11 +143,11 @@ async function scheduleTimer() {
     const userConfrim = await AIScheduleConfirm({
         // titleText: '请选择作息时间', // 标题内容，字体比较大，超过10个字不给显示的喔，也可以不传就不显示
         contentText: '请选择作息时间', // 提示信息，字体稍小，支持使用``达到换行效果，具体使用效果建议真机测试，为必传，不传显示版本号
-        cancelText: TimerEnum.summary, // 取消按钮文字，可不传默认为取消
-        confirmText: TimerEnum.winter, // 确认按钮文字，可不传默认为确认
+        cancelText: summary, // 取消按钮文字，可不传默认为取消
+        confirmText: winter, // 确认按钮文字，可不传默认为确认
     })
 
-    let sections = (new TimerEnum(userConfrim)).getSections();
+    let sec = getSections(userConfrim);
 
     // 支持异步操作 推荐await写法
     // 返回时间配置JSON，所有项都为可选项，如果不进行时间配置，请返回空对象
@@ -172,8 +165,8 @@ async function scheduleTimer() {
         forenoon: 4, // 上午课程节数：[1, 10]之间的整数
         afternoon: 4, // 下午课程节数：[0, 10]之间的整数
         // 3不生效
-        night: 3, // 晚间课程节数：[0, 10]之间的整数
-        sections, // 课程时间表，注意：总长度要和上边配置的节数加和对齐
+        night: 2, // 晚间课程节数：[0, 10]之间的整数
+        sections: JSON.parse(JSON.stringify(sec)), // 课程时间表，注意：总长度要和上边配置的节数加和对齐
     }
     // PS: 夏令时什么的还是让用户在夏令时的时候重新导入一遍吧，在这个函数里边适配吧！奥里给！————不愿意透露姓名的嘤某人
 }
