@@ -4,7 +4,7 @@
  */
 async function scheduleTimer() {
 
-    function getSummaryTimeSections() {
+    function getWinterTimeSections() {
         return [
             {
                 section: 1,
@@ -64,7 +64,7 @@ async function scheduleTimer() {
         ];
     }
 
-    function getWinterTimeSections() {
+    function getSummaryTimeSections() {
         return [
             {
                 section: 1,
