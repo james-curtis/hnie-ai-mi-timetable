@@ -1,7 +1,5 @@
-
-
 /**
- * @description 注意，这里在生成环境不能接参数，在本地测试可以接参数
+ * @description 这里在生产环境好像不能接参数，在本地测试可以接参数
  * @returns {Promise<{totalWeek: number, afternoon: number, night: number, startWithSunday: boolean, showWeekend: boolean, forenoon: number, sections: [{section: number, startTime: string, endTime: string},{section: number, startTime: string, endTime: string},{section: number, startTime: string, endTime: string},{section: number, startTime: string, endTime: string},{section: number, startTime: string, endTime: string},null,null,null,null,null]}>}
  */
 async function scheduleTimer() {
@@ -58,11 +56,11 @@ async function scheduleTimer() {
                 startTime: "19:55",
                 endTime: "20:40"
             },
-            // {
-            //     section: 11,
-            //     startTime: "20:50",
-            //     endTime: "21:35"
-            // }
+            {
+                section: 11,
+                startTime: "20:50",
+                endTime: "21:35"
+            }
         ];
     }
 
@@ -118,11 +116,11 @@ async function scheduleTimer() {
                 startTime: "20：25",
                 endTime: "21：10"
             },
-            // {
-            //     section: 11,
-            //     startTime: "21：20",
-            //     endTime: "22：05"
-            // }
+            {
+                section: 11,
+                startTime: "21：20",
+                endTime: "22：05"
+            }
         ];
     }
 
@@ -164,9 +162,9 @@ async function scheduleTimer() {
         showWeekend: true, // 是否显示周末
         forenoon: 4, // 上午课程节数：[1, 10]之间的整数
         afternoon: 4, // 下午课程节数：[0, 10]之间的整数
-        // 3不生效
-        night: 2, // 晚间课程节数：[0, 10]之间的整数
-        sections: JSON.parse(JSON.stringify(sec)), // 课程时间表，注意：总长度要和上边配置的节数加和对齐
+        night: 3, // 晚间课程节数：[0, 10]之间的整数
+        sections: sec, // 课程时间表，注意：总长度要和上边配置的节数加和对齐
     }
     // PS: 夏令时什么的还是让用户在夏令时的时候重新导入一遍吧，在这个函数里边适配吧！奥里给！————不愿意透露姓名的嘤某人
 }
+
