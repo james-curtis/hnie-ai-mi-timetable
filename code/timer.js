@@ -99,27 +99,27 @@ async function scheduleTimer() {
             {
                 section: 7,
                 startTime: "16:40",
-                endTime: "17：25"
+                endTime: "17:25"
             },
             {
                 section: 8,
-                startTime: "17：35",
-                endTime: "18：20"
+                startTime: "17:35",
+                endTime: "18:20"
             },
             {
                 section: 9,
-                startTime: "19：30",
-                endTime: "20：15"
+                startTime: "19:30",
+                endTime: "20:15"
             },
             {
                 section: 10,
-                startTime: "20：25",
-                endTime: "21：10"
+                startTime: "20:25",
+                endTime: "21:10"
             },
             {
                 section: 11,
-                startTime: "21：20",
-                endTime: "22：05"
+                startTime: "21:20",
+                endTime: "22:05"
             }
         ];
     }
