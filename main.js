@@ -4,6 +4,7 @@ const ini = require('ini')
 const path = require("path")
 const fs = require('fs')
 const { VM } = require('vm2')
+const parserjs = require('./code/parser')
 
 /**
  * 获取配置信息
@@ -84,7 +85,7 @@ const watchFile = (conn, fileName) => {
  * @param {Object} conn 连接对象
  * @param {String} providerRes provider的返回值
  * @param {String} parserCode parser的代码
- * @returns 
+ * @returns
  */
 const runParser = (conn, providerRes, parserCode) => {
   console.time('runParser')
@@ -137,6 +138,8 @@ const runParser = (conn, providerRes, parserCode) => {
   }
   // 正式运行
   try {
+    if(config.global.debug)
+      console.log(`parserjs(providerRes)`, parserjs(providerRes));
     const vm = new VM({
       timeout: 3000,
       sandbox: {

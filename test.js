@@ -1,3 +1,6 @@
-
-const regex = /\[(?<begin>\d+)-(?<end>\d+)节\]/gm;
-console.log(regex.exec('1-15(周)[05-06节]'));
+const nodeStr = "1-10,12-17(周)";
+const regex = /(?<target>\d+[\s\-]*\d+|\d+)/gi;
+console.log([...nodeStr.matchAll(regex)])
+const matchedList = [...nodeStr.matchAll(regex)]
+    .map(value => [value.input,value.groups.target]);
+console.log(matchedList)

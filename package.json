@@ -7,6 +7,7 @@
     "start": "node main.js"
   },
   "dependencies": {
+    "cheerio": "^1.0.0-rc.12",
     "ini": "^2.0.0",
     "node-watch": "^0.7.3",
     "nodejs-websocket": "^1.7.2",

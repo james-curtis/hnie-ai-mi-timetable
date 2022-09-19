@@ -42,20 +42,32 @@ function scheduleHtmlParser(html) {
                                         if (node.attribs && node.attribs.title && node.attribs.title.includes('教师')) {
                                             cls.teacher = $(node).text().replace(/其他|副?教授|讲师|\(.+\)|（.+）/g, '').trim()
                                         } else if (node.attribs && node.attribs.title && node.attribs.title.includes('周次')) {
-                                            let str = /(\d+[\s\-]*\d+|\d+).*周/.exec($(node).text().trim())
-                                            if (str[1].includes('-')) {
-                                                let arr = str[1].split('-'),
-                                                    arr1 = Array(arr[1] - arr[0] + 1).fill(0).map((v, i) => +i + +arr[0].trim())
-                                                if (str[0].includes('单周')) {
-                                                    cls.weeks = arr1.filter(v => v & 1)
-                                                } else if (str[0].includes('双周')) {
-                                                    cls.weeks = arr1.filter(v => !(v & 1))
+                                            let nodeStr = $(node).text().trim().replace(/(\[.*\])/, '');
+                                            // let str = /(\d+[\s\-]*\d+|\d+)/g.exec(nodeStr)
+                                            const matchedList = [...nodeStr.matchAll(/(?<target>\d+[\s\-]*\d+|\d+)/gi)]
+                                                .map(value => [value.input, value.groups.target]);
+
+                                            function calcWeekList(str) {
+                                                console.log(str)
+                                                if(!str[0] || !str[1]) return [];
+                                                if (str[1].includes('-')) {
+                                                    let arr = str[1].split('-'),
+                                                        arr1 = Array(arr[1] - arr[0] + 1).fill(0).map((v, i) => +i + +arr[0].trim())
+                                                    if (str[0].includes('单周')) {
+                                                        return arr1.filter(v => v & 1)
+                                                    } else if (str[0].includes('双周')) {
+                                                        return arr1.filter(v => !(v & 1))
+                                                    } else {
+                                                        return arr1
+                                                    }
                                                 } else {
-                                                    cls.weeks = arr1
+                                                    return str[1].split(',').map(v => +v.trim())
                                                 }
-                                            } else {
-                                                cls.weeks = str[1].split(',').map(v => +v.trim())
                                             }
+
+                                            const weeks = matchedList.map(value => calcWeekList(value));
+                                            cls.weeks = [...(new Set(weeks.flat()))];
+
                                             // maxWeek = cls.weeks[cls.length-1];
                                             if (node.attribs && node.attribs.title && node.attribs.title.includes('节次')) {
                                                 const sessionsStr = $(node).text().trim();
