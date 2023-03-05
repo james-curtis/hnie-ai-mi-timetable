@@ -113,8 +113,8 @@ function transGridHtml(html) {
     });
     lines.each(function (idx, el) {
         if (/<font\s+title="周次\(节次\)".+/i.test($(el).toString())) {
-            info.position = $(el).text();
-            Object.assign(info, transWeekRow(info.position))
+            info.weeks = $(el).text();
+            Object.assign(info, transWeekRow(info.weeks))
         }
     });
 
@@ -194,7 +194,7 @@ function trans(html) {
 
 function scheduleHtmlParser(html) {
     try {
-        console.log(1678032340000);
+        console.log(1678032828000);
         return trans(html);
     } catch (e) {
         console.error(e);
