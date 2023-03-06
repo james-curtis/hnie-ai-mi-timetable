@@ -1,4 +1,3 @@
-
 /**
  * trans
  * '3-11,13-15(周)'
@@ -58,14 +57,14 @@ function transSections(str = '[05-07-08节]') {
 
     // [05-06-07-08节]
     const rawSession = sessionsStr.slice(1, -2)
-    const sessionArr = rawSession.split('-').map(e=>Number(e))
+    const sessionArr = rawSession.split('-').map(e => Number(e))
     let sessionArrKey = 0
     while (1) {
         if (sessionArr[sessionArrKey] + 1 !== sessionArr[sessionArrKey + 1]) {
-            sessionArr.splice(sessionArrKey+1, 0, sessionArr[sessionArrKey] + 1)
+            sessionArr.splice(sessionArrKey + 1, 0, sessionArr[sessionArrKey] + 1)
         }
         sessionArrKey++;
-        if (sessionArrKey +1>= sessionArr.length) break;
+        if (sessionArrKey + 1 >= sessionArr.length) break;
     }
     console.log()
     return sessionArr
@@ -204,10 +203,15 @@ function trans(html) {
     return courseArr;
 }
 
+function unique(arr) {
+    let strArr = [...new Set(arr.map(e => JSON.stringify(e)))]
+    return strArr.map(e => JSON.parse(e))
+}
+
 function scheduleHtmlParser(html) {
     try {
-        console.log(1678032828000);
-        return trans(html);
+        console.log(1678094305000);
+        return unique(trans(html));
     } catch (e) {
         console.error(e);
     }
