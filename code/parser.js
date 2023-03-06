@@ -1,3 +1,4 @@
+
 /**
  * trans
  * '3-11,13-15(周)'
@@ -43,20 +44,31 @@ function transWeeks(weekStr = '3-11,13-15(周)') {
  * '[01-02节]'
  * to
  * Array(2) [1, 2]
+ *
+ * trans
+ * '[05-06-07-08节]'
+ * to
+ *
  * @param str
  * @returns {unknown[]}
  */
-function transSections(str = '[01-02节]') {
+function transSections(str = '[05-07-08节]') {
     //计算sections
     const sessionsStr = str.trim();
-    const regex = /\[(?<begin>\d+)-(?<end>\d+)节\]/i;
-    if (regex.test(sessionsStr)) {
-        const RegRes = regex.exec(sessionsStr);
-        const sessionArr = Array(Number(RegRes.groups.end) - Number(RegRes.groups.begin) + 1)
-            .fill(Number(RegRes.groups.begin))
-            .map((val, index) => Number(val) + index);
-        return sessionArr;
+
+    // [05-06-07-08节]
+    const rawSession = sessionsStr.slice(1, -2)
+    const sessionArr = rawSession.split('-').map(e=>Number(e))
+    let sessionArrKey = 0
+    while (1) {
+        if (sessionArr[sessionArrKey] + 1 !== sessionArr[sessionArrKey + 1]) {
+            sessionArr.splice(sessionArrKey+1, 0, sessionArr[sessionArrKey] + 1)
+        }
+        sessionArrKey++;
+        if (sessionArrKey +1>= sessionArr.length) break;
     }
+    console.log()
+    return sessionArr
 }
 
 /**
@@ -75,7 +87,7 @@ function transWeekRow(str = '3-11,13-15(周)[01-02节]') {
     let {
         week: weekStr,
         section: sectionStr
-    } = str.match(/(?<week>.*?)(?<section>\[\d+-\d+节\])/i).groups;
+    } = str.match(/(?<week>.*?)(?<section>\[[\d-]+节\])/i).groups;
 
     res.weeks = transWeeks(weekStr);
 
@@ -200,3 +212,8 @@ function scheduleHtmlParser(html) {
         console.error(e);
     }
 }
+
+// module.exports = {
+//     scheduleHtmlParser,
+//     transSections
+// }
